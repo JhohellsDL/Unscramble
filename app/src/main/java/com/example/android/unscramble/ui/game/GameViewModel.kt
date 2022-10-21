@@ -8,7 +8,7 @@ class GameViewModel: ViewModel() {
     private var wordList: MutableList<String> = mutableListOf()
     private lateinit var currentWord: String
 
-    private val _score = 0
+    private var _score = 0
     val score: Int
     get() = _score
 
@@ -43,5 +43,24 @@ class GameViewModel: ViewModel() {
     override fun onCleared() {
         super.onCleared()
         Log.d("GameFragment","GameViewModel destroy!")
+    }
+
+    fun nextWord(): Boolean {
+        return if (currentWordCount < MAX_NO_OF_WORDS) {
+            getNextWord()
+            true
+        } else false
+    }
+
+    private fun increaseScore(){
+        _score += SCORE_INCREASE
+    }
+
+    fun isUserWordCorrect(playerWord: String): Boolean{
+        if (playerWord.equals(currentWord, true)){
+            increaseScore()
+            return true
+        }
+        return false
     }
 }
